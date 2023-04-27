@@ -28,6 +28,12 @@ export class ADT7410 {
 	async getSetpointCritical() { return Common.getSetpointCritical(this.#bus) }
 	async getSetpointHysteria() { return Common.getSetpointHysteria(this.#bus) }
 
+	async setSetpointHigh(value: number) { return Common.setSetpointHigh(this.#bus, value) }
+	async setSetpointLow(value: number) { return Common.setSetpointLow(this.#bus, value) }
+	async setSetpointCritical(value: number) { return Common.setSetpointCritical(this.#bus, value) }
+	async setSetpointHysteria(value: number) { return Common.setSetpointHysteria(this.#bus, value) }
+
+
 	async getTemperature(): Promise<Temperature> {
 		return Common.getTemperature(this.#bus)
 	}

@@ -1,3 +1,5 @@
+import { I2CBufferSource } from "@johntalton/and-other-delights"
+
 export type Temperature = number
 
 export type Configuration = {
@@ -20,3 +22,5 @@ export type Status = {
   critical: boolean,
   ready: boolean
 }
+
+export type ParseCB<T> = (source: I2CBufferSource) => T
