@@ -30,3 +30,15 @@ export const RESOLUTION = {
   THIRTEEN: 0, // 0.0625°C
   SIXTEEN: 1 // 0.0078°C
 }
+
+export const FAULT_QUEUE_COUNT = {
+  ONE: 0b00,
+  TWO: 0b01,
+  THREE: 0b10,
+  FOUR: 0b11
+}
+
+export const INT_CT_MODE = {
+  INTERRUPT: 0,
+  COMPARATOR:  1
+}

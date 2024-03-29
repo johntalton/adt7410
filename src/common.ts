@@ -1,6 +1,6 @@
 import { I2CAddressedBus } from '@johntalton/and-other-delights'
 
-import { Configuration, ID, ParseCB, Status, Temperature } from './types.js'
+import { Configuration, ID, ParseCB, Status, Temperature, TemperatureOptions } from './types.js'
 import { REGISTER } from './defs.js'
 import { Converter } from './converter.js'
 
@@ -45,6 +45,26 @@ export class Common {
 
 	static async getSetpointHysteria(bus: I2CAddressedBus): Promise<Temperature> {
 		return get(bus, REGISTER.T_HYST, 1, Converter.parseSetpointHysteria)
+	}
+
+	static async setSetpointHigh(bus: I2CAddressedBus, high: Temperature): Promise<void> {
+		const source = Converter.fromSetpointTemperature(high)
+		return bus.writeI2cBlock(REGISTER.T_HIGH_MSB, source)
+	}
+
+	static async setSetpointLow(bus: I2CAddressedBus, low: Temperature): Promise<void> {
+		const source = Converter.fromSetpointTemperature(low)
+		return bus.writeI2cBlock(REGISTER.T_LOW_MSB, source)
+	}
+
+	static async setSetpointCritical(bus: I2CAddressedBus, critical: Temperature): Promise<void> {
+		const source = Converter.fromSetpointTemperature(critical)
+		return bus.writeI2cBlock(REGISTER.T_CRIT_MSB, source)
+	}
+
+	static async setSetpointHysteria(bus: I2CAddressedBus, hysteria: number): Promise<void> {
+		const source = Converter.fromSetpointHysteria(hysteria)
+		return bus.writeI2cBlock(REGISTER.T_HYST, source)
 	}
 
 	static async getTemperature(bus: I2CAddressedBus): Promise<Temperature> {
