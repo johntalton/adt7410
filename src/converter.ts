@@ -105,7 +105,7 @@ export class Converter {
 		const tempLSB = view.getUint8(1)
 
 		const t13 = parseTemperature13(tempMSB, tempLSB)
-		console.log(tempMSB, tempLSB, t13)
+
 		return t13.temperatureC
 	}
 

@@ -1,6 +1,6 @@
 import { I2CAddressedBus } from '@johntalton/and-other-delights'
 
-import { Configuration, ID, ParseCB, Status, Temperature, TemperatureOptions } from './types.js'
+import { Configuration, ID, ParseCB, Status, Temperature } from './types.js'
 import { REGISTER } from './defs.js'
 import { Converter } from './converter.js'
 
