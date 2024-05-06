@@ -1,11 +1,11 @@
 {
 	"name": "@johntalton/adt7410",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"type": "module",
 	"exports": {
 		".": "./lib/index.js"
 	},
-	"files": [ "./src/**/*.ts", "./lib/**/*.ts","./lib/**/*.map" ],
+	"files": [ "./src/**/*.ts", "./lib/**/*.js", "./lib/**/*.ts", "./lib/**/*.map" ],
 	"scripts": {
 		"build": "tsc",
 		"build:watch": "tsc --watch"
