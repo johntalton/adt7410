@@ -1,13 +1,11 @@
 import { I2CAddressedBus } from '@johntalton/and-other-delights'
 
-import { Configuration, ID, ParseCB, Status, Temperature } from './types.js'
+import { Configuration, ID, Status, Temperature, TemperatureStatus } from './types.js'
 import { REGISTER } from './defs.js'
 import { Converter } from './converter.js'
 
-async function get<T>(bus: I2CAddressedBus, reg: number, length: number, parse: ParseCB<T>) {
-	const ab = await bus.readI2cBlock(reg, length)
-	return parse(ab)
-}
+const BYTE_LENGTH_ONE = 1
+const BYTE_LENGTH_TWO = 2
 
 export class Common {
 	static async reset(bus: I2CAddressedBus) {
@@ -15,59 +13,67 @@ export class Common {
 	}
 
 	static async getId(bus: I2CAddressedBus): Promise<ID> {
-		return get(bus, REGISTER.ID, 1, Converter.parseId)
+		const buffer = await bus.readI2cBlock(REGISTER.ID, BYTE_LENGTH_ONE)
+		return Converter.decodeId(buffer)
 	}
 
 	static async getStatus(bus: I2CAddressedBus): Promise<Status> {
-		return get(bus,REGISTER.STATUS, 1, Converter.parseStatus)
+		const buffer = await bus.readI2cBlock(REGISTER.STATUS, BYTE_LENGTH_ONE)
+		return Converter.decodeStatus(buffer)
 	}
 
 	static async getConfiguration(bus: I2CAddressedBus): Promise<Configuration> {
-		return get(bus, REGISTER.CONFIGURATION, 1, Converter.parseConfiguration)
+		const buffer = await bus.readI2cBlock(REGISTER.CONFIGURATION, BYTE_LENGTH_ONE)
+		return Converter.decodeConfiguration(buffer)
 	}
 
 	static async setConfiguration(bus: I2CAddressedBus, config: Configuration): Promise<void> {
-		const source = Converter.fromConfiguration(config)
-		return bus.writeI2cBlock(REGISTER.CONFIGURATION, source)
+		const buffer = Converter.encodeConfiguration(config)
+		return bus.writeI2cBlock(REGISTER.CONFIGURATION, buffer)
 	}
 
-	static async getSetpointHigh(bus: I2CAddressedBus): Promise<Temperature> {
-		return get(bus, REGISTER.T_HIGH_MSB, 2, Converter.parseSetpointHigh)
+	static async getSetPointHigh(bus: I2CAddressedBus): Promise<Temperature> {
+		const buffer = await bus.readI2cBlock(REGISTER.T_HIGH_MSB, BYTE_LENGTH_TWO)
+		return Converter.decodeSetPointHigh(buffer)
 	}
 
-	static async getSetpointLow(bus: I2CAddressedBus): Promise<Temperature> {
-		return get(bus, REGISTER.T_LOW_MSB, 2, Converter.parseSetpointLow)
+	static async getSetPointLow(bus: I2CAddressedBus): Promise<Temperature> {
+		const buffer = await bus.readI2cBlock(REGISTER.T_LOW_MSB, BYTE_LENGTH_TWO)
+		return Converter.decodeSetPointLow(buffer)
 	}
 
-	static async getSetpointCritical(bus: I2CAddressedBus): Promise<Temperature> {
-		return get(bus, REGISTER.T_CRIT_MSB, 2, Converter.parseSetpointCritical)
+	static async getSetPointCritical(bus: I2CAddressedBus): Promise<Temperature> {
+		const buffer = await bus.readI2cBlock(REGISTER.T_CRIT_MSB, BYTE_LENGTH_TWO)
+		return Converter.decodeSetPointCritical(buffer)
 	}
 
-	static async getSetpointHysteria(bus: I2CAddressedBus): Promise<Temperature> {
-		return get(bus, REGISTER.T_HYST, 1, Converter.parseSetpointHysteria)
+	static async getSetPointHysteria(bus: I2CAddressedBus): Promise<Temperature> {
+		const buffer = await bus.readI2cBlock(REGISTER.T_HYST, BYTE_LENGTH_ONE)
+		return Converter.decodeSetPointHysteria(buffer)
 	}
 
-	static async setSetpointHigh(bus: I2CAddressedBus, high: Temperature): Promise<void> {
-		const source = Converter.fromSetpointTemperature(high)
-		return bus.writeI2cBlock(REGISTER.T_HIGH_MSB, source)
+	static async setSetPointHigh(bus: I2CAddressedBus, high: Temperature): Promise<void> {
+		const buffer = Converter.encodeTemperature(high)
+		return bus.writeI2cBlock(REGISTER.T_HIGH_MSB, buffer)
 	}
 
-	static async setSetpointLow(bus: I2CAddressedBus, low: Temperature): Promise<void> {
-		const source = Converter.fromSetpointTemperature(low)
-		return bus.writeI2cBlock(REGISTER.T_LOW_MSB, source)
+	static async setSetPointLow(bus: I2CAddressedBus, low: Temperature): Promise<void> {
+		const buffer = Converter.encodeTemperature(low)
+		return bus.writeI2cBlock(REGISTER.T_LOW_MSB, buffer)
 	}
 
-	static async setSetpointCritical(bus: I2CAddressedBus, critical: Temperature): Promise<void> {
-		const source = Converter.fromSetpointTemperature(critical)
-		return bus.writeI2cBlock(REGISTER.T_CRIT_MSB, source)
+	static async setSetPointCritical(bus: I2CAddressedBus, critical: Temperature): Promise<void> {
+		const buffer = Converter.encodeTemperature(critical)
+		return bus.writeI2cBlock(REGISTER.T_CRIT_MSB, buffer)
 	}
 
-	static async setSetpointHysteria(bus: I2CAddressedBus, hysteria: number): Promise<void> {
-		const source = Converter.fromSetpointHysteria(hysteria)
-		return bus.writeI2cBlock(REGISTER.T_HYST, source)
+	static async setSetPointHysteria(bus: I2CAddressedBus, hysteria: number): Promise<void> {
+		const buffer = Converter.encodeSetPointHysteria(hysteria)
+		return bus.writeI2cBlock(REGISTER.T_HYST, buffer)
 	}
 
-	static async getTemperature(bus: I2CAddressedBus): Promise<Temperature> {
-		return get(bus, REGISTER.TEMPERATURE_MSB, 2, Converter.parseTemperature)
+	static async getTemperature(bus: I2CAddressedBus, mode16: boolean): Promise<TemperatureStatus> {
+		const buffer = await bus.readI2cBlock(REGISTER.TEMPERATURE_MSB, BYTE_LENGTH_TWO)
+		return Converter.decodeTemperature(buffer, mode16)
   }
 }

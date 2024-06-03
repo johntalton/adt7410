@@ -1,31 +1,39 @@
-import { I2CBufferSource } from "@johntalton/and-other-delights"
-
 export type Temperature = number
 
-export type TemperatureOptions = {
-  c13: Temperature,
-  c16: Temperature
+export type SimpleStatus = {
+	low: boolean,
+	high: boolean,
+	critical: boolean
+}
+
+export type Status = SimpleStatus & {
+	ready: boolean
+}
+
+export type TemperatureStatus = {
+	temperatureC: Temperature
+} & Partial<Status>
+
+export type ConfigurationBits = {
+	faultQueue: number,
+	CTPolarity: number,
+	INTPolarity: number,
+	INTCTMode: number,
+	operationMode: number,
+	resolution: number
 }
 
 export type Configuration = {
-  faultQueue: number,
-  CTPolarity: number,
-  INTPolarity: number,
-  INTCTMode: number,
-  operationMode: number,
-  resolution: number
+	faultQueueLength: number,
+	polarityCTActiveHigh: boolean,
+	polarityINTActiveHigh: boolean,
+	comparison: boolean,
+	mode: number
+	resolution: 13 | 16
 }
+
 export type ID = {
-  manufactureId: number,
-  revisionId: number
-  matchedVendor: boolean
+	manufactureId: number,
+	revisionId: number
+	matchedVendor: boolean
 }
-
-export type Status = {
-  low: boolean,
-  high: boolean,
-  critical: boolean,
-  ready: boolean
-}
-
-export type ParseCB<T> = (source: I2CBufferSource) => T

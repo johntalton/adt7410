@@ -7,7 +7,7 @@
 [![Downloads Per Month](http://img.shields.io/npm/dm/@johntalton/adt7410.svg)](https://www.npmjs.com/package/@johntalton/adt7410)
 ![GitHub last commit](https://img.shields.io/github/last-commit/johntalton/adt7410)
 
-Analog devices Temperature sensor with High / Low / Critical setpoints and interrupt lines.
+Analog devices Temperature sensor with High / Low / Critical set points and interrupt lines.
 
 ## Operational Modes
 
@@ -18,14 +18,6 @@ The configuration of the ADT7410 allows for four distinct operational modes.
 - 1 SPS:
 - Shutdown:
 
-## Notes
+Temperature configuration can set the device to 13-bit or 16-bit conversion mode.
 
-### Note: Bulk reads
-
-While some sensors can support a fuller `getProfile` (returning `id` / `status` / `configuration`, `setpoint`(s)) this convenience function is not practical to include as it implies multiple bus interactions (a single transaction) which must be managed by the caller.
-
-This is due to the adt7410 not supporting muti-byte block reads.
-
-### Note: Fast reads
-
-While bulk reads are not supported, 16bit reads and 8/16bit poll-reads are supported. Thus, once the register is selected, reads can call simpler / faster reads.  Potentially allowing for faster temperature data access.
+A Low / High / Critical Alarm (set points) enable triggering of interrupts once configured.
