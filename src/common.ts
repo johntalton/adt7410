@@ -29,7 +29,7 @@ export class Common {
 
 	static async setConfiguration(bus: I2CAddressedBus, config: Configuration): Promise<void> {
 		const buffer = Converter.encodeConfiguration(config)
-		return bus.writeI2cBlock(REGISTER.CONFIGURATION, buffer)
+		await bus.writeI2cBlock(REGISTER.CONFIGURATION, buffer)
 	}
 
 	static async getSetPointHigh(bus: I2CAddressedBus): Promise<Temperature> {
@@ -54,22 +54,22 @@ export class Common {
 
 	static async setSetPointHigh(bus: I2CAddressedBus, high: Temperature): Promise<void> {
 		const buffer = Converter.encodeTemperature(high)
-		return bus.writeI2cBlock(REGISTER.T_HIGH_MSB, buffer)
+		await bus.writeI2cBlock(REGISTER.T_HIGH_MSB, buffer)
 	}
 
 	static async setSetPointLow(bus: I2CAddressedBus, low: Temperature): Promise<void> {
 		const buffer = Converter.encodeTemperature(low)
-		return bus.writeI2cBlock(REGISTER.T_LOW_MSB, buffer)
+		await bus.writeI2cBlock(REGISTER.T_LOW_MSB, buffer)
 	}
 
 	static async setSetPointCritical(bus: I2CAddressedBus, critical: Temperature): Promise<void> {
 		const buffer = Converter.encodeTemperature(critical)
-		return bus.writeI2cBlock(REGISTER.T_CRIT_MSB, buffer)
+		await bus.writeI2cBlock(REGISTER.T_CRIT_MSB, buffer)
 	}
 
 	static async setSetPointHysteria(bus: I2CAddressedBus, hysteria: number): Promise<void> {
 		const buffer = Converter.encodeSetPointHysteria(hysteria)
-		return bus.writeI2cBlock(REGISTER.T_HYST, buffer)
+		await bus.writeI2cBlock(REGISTER.T_HYST, buffer)
 	}
 
 	static async getTemperature(bus: I2CAddressedBus, mode16: boolean): Promise<TemperatureStatus> {

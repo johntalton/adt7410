@@ -206,7 +206,7 @@ export class Converter {
 		})
 	}
 
-	static encodeTemperature(temp: Temperature, into: I2CBufferSource = new ArrayBuffer(2)): ArrayBuffer {
+	static encodeTemperature(temp: Temperature, into: I2CBufferSource = new ArrayBuffer(2)): I2CBufferSource {
 		// floating point C temp into integer by shifting up by seven (making the msb the whole number part)
 		const value = Math.round(temp * RESOLUTION_FACTOR_PER_LSB)
 
@@ -220,7 +220,7 @@ export class Converter {
 		return dv.buffer
 	}
 
-	static encodeSetPointHysteria(offset: number): ArrayBuffer {
+	static encodeSetPointHysteria(offset: number): I2CBufferSource {
 		return Uint8Array.from([ offset ])
 	}
 }
