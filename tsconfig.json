@@ -1,29 +1,30 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
-
     "incremental": true,
 
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "nodenext",
     "lib": ["ESNext"],
-
-    "esModuleInterop": true,
-    "isolatedModules": false,
-    "moduleResolution": "node",
-
-    "skipLibCheck": true,
+    "moduleResolution": "nodenext",
 
     "noEmitOnError": false,
-    "noUnusedParameters": true,
+
+    "erasableSyntaxOnly": true,
 
     "strict": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
+
     "allowJs": false,
 
     "removeComments": false,

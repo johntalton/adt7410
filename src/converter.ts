@@ -26,7 +26,10 @@ export class Converter {
 			new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength) :
 			new Uint8Array(buffer)
 
-		return u8[0]
+		const [ data ] = u8
+		if(data === undefined) { throw new Error('missing single byte') }
+
+		return data
 	}
 
 	static decodeId(buffer: I2CBufferSource): ID {
@@ -114,6 +117,7 @@ export class Converter {
 			new Uint8Array(source)
 
 		const [ _msb, lsb ] = u8
+		if(lsb === undefined) { throw new Error('temperature lsb undefined') }
 
 		const lowFlag = BitSmush.extractBits(lsb, 0, 1)
 		const highFlag = BitSmush.extractBits(lsb, 1, 1)
