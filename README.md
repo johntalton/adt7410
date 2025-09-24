@@ -1,10 +1,10 @@
 # ADT 7410
 
+Analog devices Temperature sensor with High / Low / Critical set points and interrupt lines.
+
 [![npm Version](http://img.shields.io/npm/v/@johntalton/adt7410.svg)](https://www.npmjs.com/package/@johntalton/adt7410)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/johntalton/adt7410)
-![CI](https://github.com/johntalton/adt7410/workflows/CI/badge.svg)
-
-Analog devices Temperature sensor with High / Low / Critical set points and interrupt lines.
+[![CI](https://github.com/johntalton/adt7410/actions/workflows/CI.yml/badge.svg)](https://github.com/johntalton/adt7410/actions/workflows/CI.yml)
 
 ## Operational Modes
 
